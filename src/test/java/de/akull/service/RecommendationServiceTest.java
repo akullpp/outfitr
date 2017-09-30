@@ -1,5 +1,6 @@
 package de.akull.service;
 
+import lombok.AllArgsConstructor;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -10,16 +11,12 @@ import java.util.Collection;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@AllArgsConstructor
 @RunWith(Parameterized.class)
 public class RecommendationServiceTest {
 
     private final int degree;
     private final int expected;
-
-    public RecommendationServiceTest(int degree, int expected) {
-        this.degree = degree;
-        this.expected = expected;
-    }
 
     @Parameters
     public static Collection data() {
