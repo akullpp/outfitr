@@ -21,6 +21,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @RestController
+@SuppressWarnings({"WeakerAccess", "unused"})
 @RequestMapping("api/v1/recommendation")
 public class RecommendationController {
 
@@ -56,10 +57,16 @@ public class RecommendationController {
                         .filter(Objects::nonNull)
                         .collect(joining(","))
         );
-        return new Resource<>(Recommendation.builder()
-                .temperature(weatherResponse.getTemperature())
-                .level(RecommendationService.createRecommendation(weatherResponse.getTemperature()))
-                .scale(CELSIUS)
-                .build(), linkTo(methodOn(RecommendationController.class).getRecommendation(city, country)).withSelfRel().expand());
+        return new Resource<>(
+                Recommendation.builder()
+                        .temperature(weatherResponse.getTemperature())
+                        .level(RecommendationService.createRecommendation(weatherResponse.getTemperature()))
+                        .scale(CELSIUS)
+                        .build(),
+                linkTo(methodOn(RecommendationController.class)
+                        .getRecommendation(city, country))
+                        .withSelfRel()
+                        .expand()
+        );
     }
 }
