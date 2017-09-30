@@ -3,6 +3,7 @@ package de.akull.controller;
 import de.akull.client.WeatherClient;
 import de.akull.client.WeatherResponse;
 import de.akull.domain.Recommendation;
+import de.akull.service.RecommendationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.hateoas.Resource;
@@ -11,7 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Objects;
+import java.util.stream.Stream;
+
 import static de.akull.domain.Scale.CELSIUS;
+import static java.util.stream.Collectors.joining;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
@@ -46,10 +51,14 @@ public class RecommendationController {
             @RequestParam String city,
             @RequestParam(required = false) String country
     ) {
-        WeatherResponse weatherResponse = weatherClient.getWeather(String.join(",", city, country));
-
+        WeatherResponse weatherResponse = weatherClient.getWeather(
+                Stream.of(city, country)
+                        .filter(Objects::nonNull)
+                        .collect(joining(","))
+        );
         return new Resource<>(Recommendation.builder()
                 .temperature(weatherResponse.getTemperature())
+                .level(RecommendationService.createRecommendation(weatherResponse.getTemperature()))
                 .scale(CELSIUS)
                 .build(), linkTo(methodOn(RecommendationController.class).getRecommendation(city, country)).withSelfRel().expand());
     }

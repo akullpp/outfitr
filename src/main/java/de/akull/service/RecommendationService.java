@@ -1,5 +1,8 @@
 package de.akull.service;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class RecommendationService {
 
     private static final int[] BOUNDARIES = {5, 15, 21, 26};
