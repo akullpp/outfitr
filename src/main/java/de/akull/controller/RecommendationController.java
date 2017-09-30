@@ -1,6 +1,9 @@
 package de.akull.controller;
 
+import de.akull.client.WeatherClient;
+import de.akull.client.WeatherResponse;
 import de.akull.domain.Recommendation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.hateoas.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +18,13 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @RestController
 @RequestMapping("api/v1/recommendation")
 public class RecommendationController {
+
+    private WeatherClient weatherClient;
+
+    @Autowired
+    public RecommendationController(WeatherClient weatherClient) {
+        this.weatherClient = weatherClient;
+    }
 
     /*
      * Thoughts for discussion:
@@ -36,7 +46,10 @@ public class RecommendationController {
             @RequestParam String city,
             @RequestParam(required = false) String country
     ) {
+        WeatherResponse weatherResponse = weatherClient.getWeather(String.join(",", city, country));
+
         return new Resource<>(Recommendation.builder()
+                .temperature(weatherResponse.getTemperature())
                 .scale(CELSIUS)
                 .build(), linkTo(methodOn(RecommendationController.class).getRecommendation(city, country)).withSelfRel().expand());
     }

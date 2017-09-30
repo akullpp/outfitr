@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class Recommendation {
 
-    private Integer degree;
+    private Integer temperature;
 
     private Scale scale;
 
