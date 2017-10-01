@@ -1,7 +1,7 @@
-package de.akull.controller;
+package de.akull.controller.exception;
 
 import de.akull.client.WeatherClient;
-import de.akull.client.WeatherResponse;
+import de.akull.controller.RecommendationController;
 import de.akull.utility.Messages;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,9 +14,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import static de.akull.domain.Scale.CELSIUS;
-import static org.hamcrest.Matchers.endsWith;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.isA;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -24,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(RecommendationController.class)
-public class RecommendationControllerTest {
+public class RuntimeExceptionHandlerTest {
 
     private static final String ENDPOINT = "/api/v1/recommendation";
 
@@ -38,8 +36,8 @@ public class RecommendationControllerTest {
     private Messages messages;
 
     @Test
-    public void Should_Respond_With_A_Recommendation() throws Exception {
-        when(weatherClient.getWeather(any(), any())).thenReturn(WeatherResponse.builder().temperature(100).build());
+    public void Should_Respond_Only_With_An_UUID_If_An_Exception_Occured() throws Exception {
+        when(weatherClient.getWeather(any(), any())).thenThrow(new NullPointerException());
         String path = UriComponentsBuilder.newInstance()
                 .path(ENDPOINT)
                 .queryParam("city", "foo")
@@ -49,9 +47,8 @@ public class RecommendationControllerTest {
 
         ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get(path));
 
-        result.andExpect(status().is(200))
-                .andExpect(jsonPath("$.scale", is(CELSIUS.toString())))
-                .andExpect(jsonPath("$.temperature", is(100)))
-                .andExpect(jsonPath("$._links.self.href", endsWith(path)));
+        result.andExpect(status().is(500))
+                .andExpect(jsonPath("$.uuid", isA(String.class)))
+                .andExpect(jsonPath("$.message").doesNotExist());
     }
 }
