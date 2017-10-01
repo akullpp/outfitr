@@ -20,6 +20,12 @@ import static java.util.stream.Collectors.joining;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
+/**
+ * Controller for outfit recommendations based on OpenWeatherMap.
+ * <p>
+ * Caching is done for every request by Ehcache.
+ * Documentation is provided by Swagger.
+ */
 @RestController
 @SuppressWarnings({"WeakerAccess", "unused"})
 @RequestMapping("api/v1/recommendation")

@@ -14,6 +14,13 @@ import java.util.UUID;
 
 import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
 
+/**
+ * Handles all errors by Feign clients.
+ * <p>
+ * Though we only have currently one client, an extension of the API would allow us to have a centralized exception
+ * handling for every possible client exception, this reduces cognitive complexity and code repetition introduced b
+ * identical try/catch blocks.
+ */
 @Slf4j
 @ControllerAdvice
 @SuppressWarnings("unused")
@@ -27,6 +34,11 @@ public class FeignExceptionHandler {
         this.messages = messages;
     }
 
+    /**
+     * Re-maps FeignExceptions to ExceptionResponse.
+     * <p>
+     * Currently, we want to remap only 404s and hide others by presenting a general 500.
+     */
     @ResponseBody
     @ExceptionHandler(FeignException.class)
     public ExceptionResponse handleFeignException(FeignException exception, HttpServletResponse response) {

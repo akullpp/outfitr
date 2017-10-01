@@ -26,7 +26,7 @@ The server can be accessed under port `8080`.
 
 The Swagger API can be used under the `http://<host>:<port>/swagger-ui.html` URL.
 
-If you need a proxy, you set it like usual with `-Dhttp(s).proxyHost=<host> -Dhttp(s).proxyPort=<port>` depending if it's a HTTP or HTTPS proxy.
+If you need a proxy, you set it like usual with `-Dhttp(s).proxyHost=<host> -Dhttp(s).proxyPort=<port>` depending if it's a HTTP or HTTPS proxy. A quick way to do this would be to set this in the Dockerfile itself.
 
 ## Development
 

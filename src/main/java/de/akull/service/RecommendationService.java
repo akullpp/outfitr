@@ -2,6 +2,12 @@ package de.akull.service;
 
 import org.springframework.stereotype.Service;
 
+/**
+ * Calculates the recommendation based on a temperature and a scale.
+ * <p>
+ * Since recommendation level and scale follows Zipf's law, i.e. the reciprocal proportion of higher temperature and
+ * lower level, the boundary values are ordered natural numbers of upper bounds which are to be checked.
+ */
 @Service
 @SuppressWarnings("WeakerAccess")
 public class RecommendationService {

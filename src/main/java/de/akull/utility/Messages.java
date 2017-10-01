@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Locale;
 
+/**
+ * Message retrieval from property files ready for i18n.
+ */
 @Component
 public class Messages {
 
