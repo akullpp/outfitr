@@ -30,7 +30,7 @@ public class RecommendationServiceTest {
     }
 
     @Test
-    public void Should_Create_Valid_Recommendations() throws Exception {
+    public void Should_Create_A_Recommendation() {
         int[] boundaries = {5, 15, 21, 26};
 
         int result = RecommendationService.createRecommendation(degree, boundaries);

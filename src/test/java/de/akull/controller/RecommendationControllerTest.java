@@ -2,8 +2,10 @@ package de.akull.controller;
 
 import de.akull.client.WeatherClient;
 import de.akull.client.WeatherResponse;
+import de.akull.utility.Messages;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -32,6 +34,9 @@ public class RecommendationControllerTest {
 
     @MockBean
     private WeatherClient weatherClient;
+
+    @MockBean
+    private Messages messages;
 
     @Test
     public void Should_Respond_With_A_Recommendation() throws Exception {
