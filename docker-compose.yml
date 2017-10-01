@@ -4,3 +4,5 @@ services:
     build: .
     ports:
       - "8080:11000"
+    environment:
+      - OMW_API_KEY=${OMW_API_KEY}

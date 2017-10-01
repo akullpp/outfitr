@@ -4,6 +4,8 @@
 
 [Docker](https://www.docker.com/) (stable:latest)
 
+An environment variable `OMW_API_KEY` has to be set which should be a valid API Key for OpenWeatherMap.
+
 ## Run
 
 ```
