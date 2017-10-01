@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "weather", url = "${owm.uri}")
 public interface WeatherClient {
 
-    @GetMapping("weather?q={query}&units=metric&APPID=${API_KEY}")
-    WeatherResponse getWeather(@RequestParam("query") String query);
+    @GetMapping("weather?q={query}&units={unit}&APPID=${API_KEY}")
+    WeatherResponse getWeather(@RequestParam("query") String query, @RequestParam("unit") String unit);
 }

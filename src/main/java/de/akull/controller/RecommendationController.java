@@ -55,7 +55,8 @@ public class RecommendationController {
         WeatherResponse weatherResponse = weatherClient.getWeather(
                 Stream.of(city, country)
                         .filter(Objects::nonNull)
-                        .collect(joining(","))
+                        .collect(joining(",")),
+                CELSIUS.getUnit()
         );
         return new Resource<>(
                 Recommendation.builder()

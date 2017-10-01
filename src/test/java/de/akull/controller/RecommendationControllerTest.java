@@ -35,7 +35,7 @@ public class RecommendationControllerTest {
 
     @Test
     public void Should_Respond_With_A_Recommendation() throws Exception {
-        when(weatherClient.getWeather(any())).thenReturn(WeatherResponse.builder().temperature(100).build());
+        when(weatherClient.getWeather(any(), any())).thenReturn(WeatherResponse.builder().temperature(100).build());
         String path = UriComponentsBuilder.newInstance()
                 .path(ENDPOINT)
                 .queryParam("city", "foo")
